@@ -1,18 +1,26 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <input type="button" id="myBtn" value="btn"/>
+
+
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
-
+import EventUtil from "../assets/event";
+import client from "../assets/client";
 export default {
-  name: 'home',
-  components: {
-    HelloWorld
+  name: "home",
+  components: {},
+  mounted() {
+    EventUtil.addHandler(document, "mousewheel", function(event) {
+      event = EventUtil.getEvent(event);
+      var delta =
+        client.engine.opera && client.engine.opera < 9.5
+          ? -event.wheelDelta
+          : event.wheelDelta;
+      alert(delta);
+    });
   }
-}
+};
 </script>
