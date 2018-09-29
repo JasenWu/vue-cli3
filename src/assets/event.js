@@ -1,4 +1,13 @@
+import client from './client';
+
 var EventUtil = {
+  getCharCode: function (event) {
+    if (event.charCode && typeof event.charCode == "number") {//chrome下event.charCode始终为0 ？
+      return event.charCode;
+    } else {
+      return event.keyCode;
+    }
+  },
   getWheelDelta: function (event) {
     if (event.wheelDelta) {
       return (client.engine.opera && client.engine.opera < 9.5 ?
