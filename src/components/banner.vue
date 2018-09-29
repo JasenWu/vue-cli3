@@ -1,19 +1,24 @@
 <template>
   <section id="banner">
     <ul class="img-wrap" :style="{transform:'translate3d(' + (-winWidth * activeIndex)  +'px,0,0)'}">
-      <li v-for="(item,index) in data" :key="index" :style='{transform:"translate(" + 100 * index + "%,0)"}' @click="change(index)">
+      <li v-for="(item,index) in data" :key="index" :style='{transform:"translate(" + 100 * index + "%,0)"}' >
         <img :src="item" />
         </li>
     </ul>
     <div class="focus">
       <ol>
-        <li v-for="(item,index) in data" :key="index" :class="{active:(activeIndex === index)}">{{index+1}}</li>
+        <li v-for="(item,index) in data" :key="index" :class="{active:(activeIndex === index)}" @click="change(index)">{{index+1}}</li>
       </ol>
     </div>
   </section>
 </template>
 <script>
-import EventUtil from "../assets/event.js";
+import {addHandler} from "../assets/event.js";
+ 
+import {getElement} from "../assets/dom.js"
+
+
+
 export default {
   props: {
     data: {
@@ -28,7 +33,7 @@ export default {
   data() {
     return {
       activeIndex: 0,
-      winWidth: window.innerWidth
+      winWidth:0
     };
   },
   computed: {
@@ -43,6 +48,7 @@ export default {
   },
   mounted() {
     this.init();
+    
   },
   methods: {
     toBanner(activeIndex, __this) {
@@ -55,9 +61,13 @@ export default {
     },
     init() {
       this.toBanner(0, this);
-      EventUtil.addHandler(window, "resize", () => {
-        this.winWidth = window.innerWidth + "px";
+      this.setWidth();
+      addHandler(window, "resize", () => {
+       this.setWidth();
       });
+    },
+    setWidth(){
+     this.winWidth = getElement("banner").parentNode.clientWidth;
     },
     change(i) {
        this.toBanner(i, this);
@@ -83,6 +93,7 @@ export default {
     li {
       position: absolute;
       height: @height;
+      width: 100%;
       img {
         width: 100%;
         height: 100%;

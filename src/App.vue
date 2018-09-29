@@ -1,9 +1,10 @@
 <template>
   <div id="app">
-    <div id="nav">
+    <header class="layout-header">SuperSlidev2.1</header>
+    <!-- <div id="nav">
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
-    </div>
+    </div> -->
     <router-view/>
   </div>
 </template>
@@ -15,6 +16,12 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  .layout-header{
+    width: 100%;
+    line-height: 30px;
+    color: silver;
+    background: #000;
+  }
 }
 #nav {
   padding: 30px;
