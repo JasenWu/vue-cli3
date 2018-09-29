@@ -13,12 +13,10 @@
   </section>
 </template>
 <script>
-import {addHandler} from "../assets/event.js";
+
+import {addHandler} from "@assets/js/event.js"; 
+import {getElement} from "@assets/js/dom.js"
  
-import {getElement} from "../assets/dom.js"
-
-
-
 export default {
   props: {
     data: {
