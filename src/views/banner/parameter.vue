@@ -6,37 +6,30 @@
     <ul class="i-parameter-ul">
       <li>
         效果[effect]:
-        <select>
-          <option>fade</option>
-          <option>fold</option>
-          <option>left</option>
-          <option>top</option>
-          <option>leftLoop</option>
-          <option>topLoop</option>
+        <select v-model="effect.value">
+          <option v-for="(v,k) in effect.items" :key="k" :value="item">{{v}}</option>
         </select>
       </li>
       <li>
         自动运行[autoPlay]:
-        <select>
-          <option>true</option>
+        <select v-model="autoPlay.value">
+          <option v-for="(v,k) in autoPlay.items" :key="k" :value="v">{{v}}</option>
           <option>false</option>
 
         </select>
       </li>
       <li>
         触发方式[trigger]:
-        <select>
-          <option>mouseover</option>
-          <option>click</option>
+        <select v-model="trigger.value">
+          <option v-for="(v,k) in trigger.items" :key="k" :value="v">{{v}}</option>
+           
         </select>
       </li>
       <li>
         缓动效果[easing]:
-        <select>
-          <option>swing</option>
-          <option>easeOutCirc</option>
-          <option>easeInQuint</option>
-          <option>easeInBack</option>
+        <select v-model="easing.value">
+          <option v-if="(v,k) in easing.items" :key="k" :value="v">{{v}}</option>
+        
         </select>
       </li>
       <li>
@@ -44,7 +37,6 @@
         <select>
           <option>true</option>
           <option>false</option>
-
         </select>
       </li>
       <li>
@@ -65,6 +57,27 @@
 <script>
 export default {
   name:'parameter',
+  data(){
+    return{
+      effect:{
+         value:'fade',
+         items:['fade','fold','left','top','leftLoop','topLoop'],
+      },
+      autoPlay:{
+        value:true,
+        items:[true,false]
+      },
+      trigger:{
+        value:'mouseover',
+        items:['mouseover','click']
+      },
+      easing:{
+        value:'',
+        items:['swing','easeOutCirc','easeInQuint','easeInBack']
+      }
+ 
+    }
+  },
   methods:{
     trigger(){
       this.$Bus.$emit('test','test value')
@@ -86,9 +99,9 @@ export default {
         }
         .i-parameter-ul {
           list-style: none;
-          display: flex;
+           
           li {
-            width: 50%;
+            padding-top: 10px;
           }
         }
       }
