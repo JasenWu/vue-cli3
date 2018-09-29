@@ -1,6 +1,6 @@
 <template>
   <section class="layout-banner-parameter">
-    <div class="i-header">
+    <div class="i-header" @click="trigger()">
       常用参数(切换看看)
     </div>
     <ul class="i-parameter-ul">
@@ -61,6 +61,19 @@
     <p>注意：缓动效果对于fade影响不大;不同缓动效果设置适当“效果速度”，会有最佳效果。</p>
   </section>
 </template>
+
+<script>
+export default {
+  name:'parameter',
+  methods:{
+    trigger(){
+      this.$Bus.$emit('test','test value')
+    }
+  }
+
+}
+</script>
+
 
 <style lang="less" scoped>
 .layout-banner-parameter {

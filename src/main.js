@@ -3,8 +3,9 @@ import App from '@src/App.vue'
 import router from '@src/router'
 import store from '@src/store'
 require('@assets/less/common.less')
-Vue.config.productionTip = false
-
+Vue.config.productionTip = false;
+Vue.prototype.$Bus = new Vue();
+ 
 new Vue({
   router,
   store,

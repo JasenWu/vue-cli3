@@ -46,6 +46,9 @@ export default {
   },
   mounted() {
     this.init();
+    this.$Bus.$on('test',function(val){
+      console.log('val',val);
+    })
     
   },
   methods: {
