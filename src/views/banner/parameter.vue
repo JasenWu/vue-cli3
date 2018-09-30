@@ -1,13 +1,13 @@
 <template>
   <section class="layout-banner-parameter">
-    <div class="i-header" @click="trigger()">
+    <div class="i-header" @click="triggerFuc()">
       常用参数(切换看看)
     </div>
     <ul class="i-parameter-ul">
       <li>
         效果[effect]:
         <select v-model="effect.value">
-          <option v-for="(v,k) in effect.items" :key="k" :value="item">{{v}}</option>
+          <option v-for="(v,k) in effect.items" :key="k" :value="v">{{v}}</option>
         </select>
       </li>
       <li>
@@ -28,7 +28,7 @@
       <li>
         缓动效果[easing]:
         <select v-model="easing.value">
-          <option v-if="(v,k) in easing.items" :key="k" :value="v">{{v}}</option>
+          <option v-for="(v,k) in easing.items" :key="k" :value="v">{{v}}</option>
         
         </select>
       </li>
@@ -72,14 +72,14 @@ export default {
         items:['mouseover','click']
       },
       easing:{
-        value:'',
+        value:'swing',
         items:['swing','easeOutCirc','easeInQuint','easeInBack']
       }
  
     }
   },
   methods:{
-    trigger(){
+    triggerFuc(){
       this.$Bus.$emit('test','test value')
     }
   }

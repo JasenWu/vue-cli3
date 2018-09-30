@@ -63,6 +63,7 @@ export const removeHandler = function (element, type, handler) {
     element["on" + type] = null;
   }
 }
+
 export const getEvent = function (event) {
   return event ? event : window.event;
 }
@@ -82,6 +83,19 @@ export const stopPropagation = function (event) {
     event.stopPropagation();
   } else {
     event.cancelBubble = true;
+  }
+}
+
+export const getClipboardText = function (event) {
+  var clipboardData = (event.clipboardData || window.clipboardData);
+  return clipboardData.getData("text");
+}
+
+export const setClipboardText = function (event, value) {
+  if (event.clipboardData) {
+    return event.clipboardData.setData("text/plain", value);
+  } else if (window.clipboardData) {
+    return window.clipboardData.setData("text", value);
   }
 }
 
