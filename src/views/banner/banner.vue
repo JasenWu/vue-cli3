@@ -1,22 +1,23 @@
 <template>
-  <section id="banner">
+  <section id="banner" @mouseover="stopScroll">
     <ul class="img-wrap" :style="{transform:'translate3d(' + (-winWidth * activeIndex)  +'px,0,0)'}">
-      <li v-for="(item,index) in data" :key="index" :style='{transform:"translate(" + 100 * index + "%,0)"}' >
+      <li v-for="(item,index) in data" :key="index" :style='{transform:"translate(" + 100 * index + "%,0)"}'>
         <img :src="item" />
         </li>
     </ul>
     <div class="focus">
       <ol>
-        <li v-for="(item,index) in data" :key="index" :class="{active:(activeIndex === index)}" @click="change(index)">{{index+1}}</li>
+        <li v-for="(item,index) in data" :key="index" :class="{active:(activeIndex === index)}" >{{index+1}}</li>
       </ol>
     </div>
+    <a class="prev" @click="changePic('pre')" href="javascript:void(0)"></a>
+    <a class="next" @click="changePic('next')" href="javascript:void(0)"></a>
   </section>
 </template>
 <script>
+import { addHandler } from "@assets/js/event.js";
+import { getElement } from "@assets/js/dom.js";
 
-import {addHandler} from "@assets/js/event.js"; 
-import {getElement} from "@assets/js/dom.js"
- 
 export default {
   props: {
     data: {
@@ -31,7 +32,7 @@ export default {
   data() {
     return {
       activeIndex: 0,
-      winWidth:0
+      winWidth: 0
     };
   },
   computed: {
@@ -46,10 +47,9 @@ export default {
   },
   mounted() {
     this.init();
-    this.$Bus.$on('test',function(val){
-      console.log('val',val);
-    })
-    
+    this.$Bus.$on("test", function(val) {
+      console.log("val", val);
+    });
   },
   methods: {
     toBanner(activeIndex, __this) {
@@ -62,16 +62,27 @@ export default {
     },
     init() {
       this.toBanner(0, this);
+
       this.setWidth();
       addHandler(window, "resize", () => {
-       this.setWidth();
+        this.setWidth();
       });
     },
-    setWidth(){
-     this.winWidth = getElement("banner").parentNode.clientWidth;
+    setWidth() {
+      this.winWidth = getElement("banner").parentNode.clientWidth;
     },
-    change(i) {
-       this.toBanner(i, this);
+    changePic(req) {
+      if(req === 'pre'){
+
+      }
+
+      if(req === 'next'){
+
+      }
+ 
+    },
+    stopScroll(){
+      console.log('stop',this.activeIndex)
     }
   }
 };
@@ -133,6 +144,24 @@ export default {
         }
       }
     }
+  }
+  .prev,
+  .next {
+    position: absolute;
+    left: 3%;
+    top: 50%;
+    margin-top: -25px;
+    display: block;
+    width: 32px;
+    height: 40px;
+    background: url('http://www.superslide2.com/demo/images/slider-arrow.png') -110px 5px no-repeat;
+    filter: alpha(opacity=50);
+    opacity: 0.5;
+  }
+  .next {
+    left: auto;
+    right: 3%;
+    background-position: 8px 5px;
   }
 }
 </style>
