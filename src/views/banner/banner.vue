@@ -1,5 +1,5 @@
 <template>
-  <section id="banner" @mouseover="stopScroll">
+  <section id="banner" @mouseover="stopScroll()" @mouseout="startScrool()">
     <ul class="img-wrap" :style="{transform:'translate3d(' + (-winWidth * activeIndex)  +'px,0,0)'}">
       <li v-for="(item,index) in data" :key="index" :style='{transform:"translate(" + 100 * index + "%,0)"}'>
         <img :src="item" />
@@ -32,7 +32,9 @@ export default {
   data() {
     return {
       activeIndex: 0,
-      winWidth: 0
+      winWidth: 0,
+      config:{},
+      t:null
     };
   },
   computed: {
@@ -46,23 +48,25 @@ export default {
     }
   },
   mounted() {
-    this.init();
-    this.$Bus.$on("test", function(val) {
-      console.log("val", val);
+    
+    this.$Bus.$on("bannerChange", (config)=>{
+      this.config = config;
+      this.startScrool();
     });
   },
   methods: {
     toBanner(activeIndex, __this) {
-      activeIndex = __this.data.length <= activeIndex ? 0 : activeIndex;
+      activeIndex = (activeIndex >= __this.data.length || activeIndex <= 0) ? 0 : activeIndex;
       __this.activeIndex = activeIndex;
-      setTimeout(() => {
+      __this.t = setTimeout(() => {
         activeIndex++;
+        clearTimeout(__this.t);
         __this.toBanner(activeIndex, __this);
+
       }, __this.speedCur);
     },
-    init() {
-      this.toBanner(0, this);
-
+    startScrool() {
+      this.toBanner(this.activeIndex, this);
       this.setWidth();
       addHandler(window, "resize", () => {
         this.setWidth();
@@ -73,17 +77,17 @@ export default {
     },
     changePic(req) {
       if(req === 'pre'){
-
+         this.activeIndex = this.activeIndex<=0 ? (this.data.length-1) :(this.activeIndex -1)
       }
-
       if(req === 'next'){
-
+        this.activeIndex = (this.activeIndex>=(this.data.length-1))?0:(this.activeIndex + 1)
       }
- 
     },
     stopScroll(){
-      console.log('stop',this.activeIndex)
-    }
+       if(this.t != null){
+         clearTimeout(this.t);
+       }
+    } 
   }
 };
 </script>

@@ -1,54 +1,52 @@
 <template>
   <section class="layout-banner-parameter">
-    <div class="i-header" @click="triggerFuc()">
+    <div class="i-header" >
       常用参数(切换看看)
     </div>
     <ul class="i-parameter-ul">
       <li>
         效果[effect]:
-        <select v-model="effect.value">
-          <option v-for="(v,k) in effect.items" :key="k" :value="v">{{v}}</option>
+        <select v-model="config.effect.value" @change="resetBanner()">
+          <option v-for="(v,k) in config.effect.items" :key="k" :value="v">{{v}}</option>
         </select>
       </li>
       <li>
         自动运行[autoPlay]:
-        <select v-model="autoPlay.value">
-          <option v-for="(v,k) in autoPlay.items" :key="k" :value="v">{{v}}</option>
-          <option>false</option>
-
+        <select v-model="config.autoPlay.value" @change="resetBanner()">
+          <option v-for="(v,k) in config.autoPlay.items" :key="k" :value="v">{{v}}</option>
         </select>
       </li>
       <li>
         触发方式[trigger]:
-        <select v-model="trigger.value">
-          <option v-for="(v,k) in trigger.items" :key="k" :value="v">{{v}}</option>
+        <select v-model="config.trigger.value" @change="resetBanner()">
+          <option v-for="(v,k) in config.trigger.items" :key="k" :value="v">{{v}}</option>
 
         </select>
       </li>
       <li>
         缓动效果[easing]:
-        <select v-model="easing.value">
-          <option v-for="(v,k) in easing.items" :key="k" :value="v">{{v}}</option>
+        <select v-model="config.easing.value" @change="resetBanner()">
+          <option v-for="(v,k) in config.easing.items" :key="k" :value="v">{{v}}</option>
 
         </select>
       </li>
       <li>
         效果速度[delayTime]:	
-        <select v-model="delayTime.value">
+        <select v-model="config.delayTime.value" @change="resetBanner()">
          
-          <option v-for="(v,k) in delayTime.items" :key="k" :value="v">{{v}}</option>
+          <option v-for="(v,k) in config.delayTime.items" :key="k" :value="v">{{v}}</option>
         </select>
       </li>
       <li>
         停止播放[mouseOverStop]:
-         <select v-model="mouseOverStop.value">
-          <option v-for="(v,k) in mouseOverStop.items" :key="k" :value="v">{{v}}</option>
+         <select v-model="config.mouseOverStop.value" @change="resetBanner()">
+          <option v-for="(v,k) in config.mouseOverStop.items" :key="k" :value="v">{{v}}</option>
         </select>
       </li>
       <li>
         前后按钮循环[pnLoop]:
-        <select v-model="pnLoop.value">
-          <option v-for="(v,k) in pnLoop.items" :key="k" :value="v">{{v}}</option>
+        <select v-model="config.pnLoop.value" @change="resetBanner()">
+          <option v-for="(v,k) in config.pnLoop.items" :key="k" :value="v">{{v}}</option>
         </select>
       </li>
     </ul>
@@ -60,44 +58,24 @@
 </template>
 
 <script>
+
+import {bannerConfig} from '../../model/model.js';
+ 
 export default {
   name: "parameter",
   data() {
     return {
-      effect: {
-        value: "fade",
-        items: ["fade", "fold", "left", "top", "leftLoop", "topLoop"]
-      },
-      autoPlay: {
-        value: true,
-        items: [true, false]
-      },
-      trigger: {
-        value: "mouseover",
-        items: ["mouseover", "click"]
-      },
-      easing: {
-        value: "swing",
-        items: ["swing", "easeOutCirc", "easeInQuint", "easeInBack"]
-      },
-      delayTime:{
-         value: 500,
-         items: [500,700,1000,0]
-      },
-      mouseOverStop: {
-        value: true,
-        items: [true, false]
-      },
-      pnLoop: {
-        value: true,
-        items: [true, false]
-      }
+      config:bannerConfig
     };
   },
+  mounted(){
+    this.resetBanner();
+  },
   methods: {
-    triggerFuc() {
-      this.$Bus.$emit("test", "test value");
+    resetBanner() {
+      this.$Bus.$emit("bannerChange",this.config);
     }
+
   }
 };
 </script>
