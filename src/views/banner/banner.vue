@@ -1,126 +1,107 @@
 <template>
-  <section id="banner" @mouseover="stopScroll()" @mouseout="(config.mouseOverStop.value === true) ? startScrool() : ''">
+  <section id="banner" @mouseover="stopScroll()" @mouseout="(config.mouseOverStop.value === true) ? startScrool() : ''" v-if="config.effect">
     <ul class="img-wrap" :style="{transform:'translate3d(' + (-winWidth * activeIndex)  +'px,0,0)'}">
       <li v-for="(item,index) in data" :key="index" :style='{transform:"translate(" + 100 * index + "%,0)"}'>
-        <a  :href="item.url">]
-            <img :src="item.img" :style="{opacity:imgOpacity}" />
-        </a>
+          <a  :href="item.url">
+              <img :src="item.img" :style="{opacity:imgOpacity}" />
+          </a>
         </li>
     </ul>
     <div class="focus">
       <ol>
-        <li v-for="(item,index) in data" :key="index" :class="{active:(activeIndex === index)}" @click="changePic(index)" >{{index+1}}</li>
+        <li v-for="(item,index) in data" :key="index" :class="{active:(activeIndex === index)}"  @click="trigger(index,'click')" @mouseover="trigger(index,'mouseover')" >{{index+1}}</li>
       </ol>
     </div>
-    
     <a class="prev" v-if="config.pnLoop.value" @click="changePic('pre')" href="javascript:void(0)"></a>
     <a class="next" v-if="config.pnLoop.value" @click="changePic('next')" href="javascript:void(0)"></a>
- 
   </section>
 </template>
 <script>
-import { addHandler } from "@assets/js/event.js";
-import { getElement } from "@assets/js/dom.js";
-import {bannerConfig} from "../../model/model.js"
-console.log()
+import { addHandler } from '@assets/js/event.js'
+import { getElement } from '@assets/js/dom.js'
+
 export default {
   props: {
     data: {
       type: Array,
-      default: []
+      required: true,
+      default () {
+        return []
+      }
+    },
+    config: {
+      type: Object,
+      required: true,
+      default () {
+        return {}
+      }
     }
   },
-  data() {
+  data () {
     return {
       activeIndex: 0,
       winWidth: 0,
-      config:bannerConfig,
-      t:null,
-      imgOpacity:1,
-    };
+      t: null,
+      imgOpacity: 1
+    }
   },
-  computed: {
-    //  getTransVal(){
-    //    if(!this.config.effect){
-    //      return 'transform 0s';
-    //    }
-    //    switch(this.config.effect.value){
-    //      case 'left':
-    //       return 'transform 1s';
-    //    }
-    //  }
-  },
-  mounted() {
-    this.$Bus.$on("bannerChange", (config)=>{
-      this.config = config;
-      this.stopScroll();
-      this.startScrool();
-    });
+
+  mounted () {
+    this.$Bus.$on('bannerChange', (config) => {
+      this.stopScroll()
+      this.startScrool()
+    })
   },
   methods: {
-    toBanner(activeIndex,time) {
-      activeIndex = (activeIndex >= this.data.length || activeIndex <= 0) ? 0 : activeIndex;
-      this.activeIndex = activeIndex;
-      let __time = (time === undefined) ? this.config.delayTime.value :time ; 
-      
-       if(this.config.autoPlay.value === false){
-          return false;
-       }
+    trigger (index, type) {
+      if (type === this.config.trigger.value) {
+        this.changePic(index)
+      }
+    },
+    toBanner (activeIndex, time) {
+      activeIndex = (activeIndex >= this.data.length || activeIndex <= 0) ? 0 : activeIndex
+      this.activeIndex = activeIndex
+      let __time = (time === undefined) ? this.config.delayTime.value : time
 
-
+      if (this.config.autoPlay.value === false) {
+        return false
+      }
       this.t = setTimeout(() => {
-          activeIndex++;
-          // let fade = (opacity)=>{
-          //   console.log('here');
-          //   let t = null;
-          //   if(opacity>=1){
-          //     clearTimeout(t);
-          //     return false;
-          //   }
-          //   this.imgOpacity =  opacity +  0.1;
-          //   let opt = this.imgOpacity;
-          //   t = setTimeout(()=>{
-          //     fade(opt)
-          //   },100)
-            
-          // }
-        // this.imgOpacity =0;
-        // fade(this.imgOpacity);
-        this.toBanner(activeIndex);
-      },__time);
+        activeIndex++
+        this.toBanner(activeIndex)
+      }, __time)
     },
-    startScrool() {
-      this.toBanner(this.activeIndex,0);
-      this.setWidth();
-      addHandler(window, "resize", () => {
-        this.setWidth();
-      });
+    startScrool () {
+      this.toBanner(this.activeIndex, 0)
+      this.setWidth()
+      addHandler(window, 'resize', () => {
+        this.setWidth()
+      })
     },
-    setWidth() {
-      this.winWidth = getElement("banner").parentNode.clientWidth;
+    setWidth () {
+      this.winWidth = getElement('banner').parentNode.clientWidth
     },
-    changePic(req) {
-      if(req === 'pre'){
-         this.activeIndex = this.activeIndex<=0 ? (this.data.length-1) :(this.activeIndex -1)
+    changePic (req) {
+      if (req === 'pre') {
+        this.activeIndex = this.activeIndex <= 0 ? (this.data.length - 1) : (this.activeIndex - 1)
       }
-      if(req === 'next'){
-        this.activeIndex = (this.activeIndex>=(this.data.length-1))?0:(this.activeIndex + 1)
+      if (req === 'next') {
+        this.activeIndex = (this.activeIndex >= (this.data.length - 1)) ? 0 : (this.activeIndex + 1)
       }
-      
-      if(typeof req === 'number'){
-         this.activeIndex = req;
+      if (typeof req === 'number') {
+        this.activeIndex = req
       }
     },
-    stopScroll(){
-      if(this.config.mouseOverStop.value === false){
-        return false;
+    stopScroll () {
+      if (this.config.mouseOverStop && this.config.mouseOverStop.value === false) {
+        return false
       }
-       if(this.t != null){
-         clearTimeout(this.t);
-       }
-    } 
+      if (this.t != null) {
+        clearTimeout(this.t)
+      }
+    }
   }
-};
+}
 </script>
 
 <style lang="less">
@@ -131,7 +112,6 @@ export default {
   overflow: hidden;
   height: @height;
   ul.img-wrap {
-    
     margin: 0;
     padding: 0;
     list-style: none;
@@ -148,9 +128,8 @@ export default {
   div.focus {
     z-index: 99;
     position: absolute;
-    left: 50%;
+    right: 20px;
     bottom: 15px;
-
     ol {
       list-style: none;
       margin: 0;
@@ -198,5 +177,3 @@ export default {
   }
 }
 </style>
-
-

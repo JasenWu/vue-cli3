@@ -31,9 +31,9 @@
         </select>
       </li>
       <li>
-        效果速度[delayTime]:	
+        效果速度[delayTime]:
         <select v-model="config.delayTime.value" @change="resetBanner()">
-         
+
           <option v-for="(v,k) in config.delayTime.items" :key="k" :value="v">{{v}}</option>
         </select>
       </li>
@@ -59,27 +59,26 @@
 
 <script>
 
-import {bannerConfig} from '../../model/model.js';
- 
+import { bannerConfig } from '../../model/model.js'
+
 export default {
-  name: "parameter",
-  data() {
+  name: 'parameter',
+  data () {
     return {
-      config:bannerConfig
-    };
+      config: bannerConfig
+    }
   },
-  mounted(){
-    this.resetBanner();
+  mounted () {
+    this.resetBanner()
   },
   methods: {
-    resetBanner() {
-      this.$Bus.$emit("bannerChange",this.config);
+    resetBanner () {
+      this.$Bus.$emit('bannerChange', this.config)
     }
 
   }
-};
+}
 </script>
-
 
 <style lang="less" scoped>
 .layout-banner-parameter {
@@ -108,4 +107,3 @@ export default {
   }
 }
 </style>
-

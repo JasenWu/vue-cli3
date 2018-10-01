@@ -6,9 +6,9 @@
         <slot name="main" />
       </div>
       <div class="i-item right">
-        
+
            <slot name="parameter" />
-       
+
       </div>
     </section>
   </section>
@@ -33,9 +33,7 @@
     div.i-item {
       width: 49%;
 
-      
     }
   }
 }
 </style>
- 
