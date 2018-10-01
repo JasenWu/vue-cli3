@@ -6,7 +6,7 @@
       </template>
 
      <template slot="main">
-       <c-banner  :data="banner" />
+       <c-banner  :data="banner" /> 
      </template>
      
      <template slot="parameter">
@@ -25,9 +25,20 @@ export default {
   data() {
     return {
       banner: [
-        "http://www.superslide2.com/demo/images/pic1.jpg",
-        "http://www.superslide2.com/demo/images/pic2.jpg",
-        "http://www.superslide2.com/demo/images/pic3.jpg"
+        {
+          url:'/',
+          img:"http://www.superslide2.com/demo/images/pic1.jpg"
+        },
+        {
+          url:'/',
+          img:"http://www.superslide2.com/demo/images/pic2.jpg"
+        },
+        {
+          url:'/',
+          img:"http://www.superslide2.com/demo/images/pic3.jpg"
+        },
+        
+        
       ]
     };
   }

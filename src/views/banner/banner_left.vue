@@ -2,14 +2,12 @@
   <section id="banner" @mouseover="stopScroll()" @mouseout="(config.mouseOverStop.value === true) ? startScrool() : ''">
     <ul class="img-wrap" :style="{transform:'translate3d(' + (-winWidth * activeIndex)  +'px,0,0)'}">
       <li v-for="(item,index) in data" :key="index" :style='{transform:"translate(" + 100 * index + "%,0)"}'>
-        <a  :href="item.url">]
-            <img :src="item.img" :style="{opacity:imgOpacity}" />
-        </a>
+        <img :src="item" :style="{opacity:imgOpacity}" />
         </li>
     </ul>
     <div class="focus">
       <ol>
-        <li v-for="(item,index) in data" :key="index" :class="{active:(activeIndex === index)}" @click="changePic(index)" >{{index+1}}</li>
+        <li v-for="(item,index) in data" :key="index" :class="{active:(activeIndex === index)}" >{{index+1}}</li>
       </ol>
     </div>
     
@@ -84,9 +82,13 @@ export default {
           //   },100)
             
           // }
+
         // this.imgOpacity =0;
         // fade(this.imgOpacity);
+        
         this.toBanner(activeIndex);
+ 
+
       },__time);
     },
     startScrool() {
@@ -105,10 +107,6 @@ export default {
       }
       if(req === 'next'){
         this.activeIndex = (this.activeIndex>=(this.data.length-1))?0:(this.activeIndex + 1)
-      }
-      
-      if(typeof req === 'number'){
-         this.activeIndex = req;
       }
     },
     stopScroll(){
@@ -158,22 +156,22 @@ export default {
       margin-left: "-50%";
       li {
         float: left;
-        @size: 10px;
+        @size: 5px;
         width: @size;
         height: @size;
         line-height: @size;
+        border-radius: @size;
         overflow: hidden;
         padding: 2px;
-        background: white;
-        color:black;
+        background: rgba(0, 0, 0, 0.9);
+        color: white;
         text-align: center;
         cursor: pointer;
         font-size: 12px;
         margin-right: 5px;
+        text-indent: -9999px;
         &.active {
-          background: red;
-          color:white;
-          font-weight:bold;
+          background: rgba(255, 255, 255, 0.5);
         }
       }
     }

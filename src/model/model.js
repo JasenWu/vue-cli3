@@ -2,31 +2,33 @@ let bannerConfig = {
     effect: {
         value: "fade",
         items: ["fade", "fold", "left", "top", "leftLoop", "topLoop"]
-      },
-      autoPlay: {
+    },
+    autoPlay: {
         value: true,
         items: [true, false]
-      },
-      trigger: {
+    },
+    trigger: {
         value: "mouseover",
         items: ["mouseover", "click"]
-      },
-      easing: {
+    },
+    easing: {
         value: "swing",
         items: ["swing", "easeOutCirc", "easeInQuint", "easeInBack"]
-      },
-      delayTime:{
-         value: 500,
-         items: [500,700,1000,0]
-      },
-      mouseOverStop: {
+    },
+    delayTime: {
+        value: 2000,
+        items: [1000, 2000, 3000]
+    },
+    mouseOverStop: {
         value: true,
         items: [true, false]
-      },
-      pnLoop: {
+    },
+    pnLoop: {
         value: true,
         items: [true, false]
-      }
+    }
 }
 
-export {bannerConfig}
+export {
+    bannerConfig
+}
