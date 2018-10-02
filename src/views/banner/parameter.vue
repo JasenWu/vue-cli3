@@ -73,7 +73,9 @@ export default {
   },
   methods: {
     resetBanner () {
-      this.$Bus.$emit('bannerChange', this.config)
+      console.log('yy')
+      this.$emit('change',this.config)
+  
     }
 
   }

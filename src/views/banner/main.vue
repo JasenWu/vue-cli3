@@ -10,7 +10,7 @@
      </template>
 
      <template slot="parameter">
-       <c-parameter />
+       <c-parameter  @change="changeConfig"  />
      </template>
   </c-layout>
   </section>
@@ -43,9 +43,14 @@ export default {
     }
   },
   mounted () {
-    this.$Bus.$on('bannerChange', (config) => {
-      this.config = config
-    })
+     
+  },
+  methods:{
+    changeConfig(config){
+      console.log('jj')
+       this.config = config
+
+    }
   }
 }
 </script>

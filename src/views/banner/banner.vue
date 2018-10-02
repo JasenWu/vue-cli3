@@ -45,12 +45,14 @@ export default {
       imgOpacity: 1
     }
   },
-
-  mounted () {
-    this.$Bus.$on('bannerChange', (config) => {
-      this.stopScroll()
-      this.startScrool()
-    })
+  watch:{
+    config:{
+      handler: function (val, oldVal) {
+        this.stopScroll()
+        this.startScrool()
+      },
+      deep: true
+    }
   },
   methods: {
     trigger (index, type) {
