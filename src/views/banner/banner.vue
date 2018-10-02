@@ -45,8 +45,8 @@ export default {
       imgOpacity: 1
     }
   },
-  watch:{
-    config:{
+  watch: {
+    config: {
       handler: function (val, oldVal) {
         this.stopScroll()
         this.startScrool()
@@ -86,9 +86,11 @@ export default {
     changePic (req) {
       if (req === 'pre') {
         this.activeIndex = this.activeIndex <= 0 ? (this.data.length - 1) : (this.activeIndex - 1)
+        return false
       }
       if (req === 'next') {
         this.activeIndex = (this.activeIndex >= (this.data.length - 1)) ? 0 : (this.activeIndex + 1)
+        return false
       }
       if (typeof req === 'number') {
         this.activeIndex = req

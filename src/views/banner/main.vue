@@ -42,14 +42,9 @@ export default {
       ]
     }
   },
-  mounted () {
-     
-  },
-  methods:{
-    changeConfig(config){
-      console.log('jj')
-       this.config = config
-
+  methods: {
+    changeConfig (config) {
+      this.config = config
     }
   }
 }

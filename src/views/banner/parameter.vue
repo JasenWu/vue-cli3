@@ -4,12 +4,12 @@
       常用参数(切换看看)
     </div>
     <ul class="i-parameter-ul">
-      <li>
+      <!-- <li>
         效果[effect]:
         <select v-model="config.effect.value" @change="resetBanner()">
           <option v-for="(v,k) in config.effect.items" :key="k" :value="v">{{v}}</option>
         </select>
-      </li>
+      </li> -->
       <li>
         自动运行[autoPlay]:
         <select v-model="config.autoPlay.value" @change="resetBanner()">
@@ -51,9 +51,9 @@
       </li>
     </ul>
     <br/>
-    <strong>当前调用代码：</strong>
-    <p class="i-code">jQuery(".slideBox").slide({mainCell:".bd ul",effect:"top",autoPlay:true,trigger:"click",delayTime:1000,mouseOverStop:false,pnLoop:false});</p>
-    <p>注意：缓动效果对于fade影响不大;不同缓动效果设置适当“效果速度”，会有最佳效果。</p>
+    <!-- <strong>当前调用代码：</strong>
+    <p class="i-code">{{code}}</p> -->
+
   </section>
 </template>
 
@@ -65,7 +65,8 @@ export default {
   name: 'parameter',
   data () {
     return {
-      config: bannerConfig
+      config: bannerConfig,
+      code: '<c-banner  :data="banner" :config="config" />'
     }
   },
   mounted () {
@@ -73,11 +74,8 @@ export default {
   },
   methods: {
     resetBanner () {
-      console.log('yy')
-      this.$emit('change',this.config)
-  
+      this.$emit('change', this.config)
     }
-
   }
 }
 </script>
