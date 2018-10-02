@@ -47,14 +47,13 @@ export default {
   watch: {
     config: {
       handler: function (val, oldVal) {
-        
         this.stopScroll()
         this.startScrool()
       },
       deep: true
     }
   },
- 
+
   methods: {
     trigger (index, type) {
       if (type === this.config.trigger.value) {
@@ -110,11 +109,11 @@ export default {
 </script>
 
 <style lang="less">
- 
+
     /* css 重置 */
 		*{margin:0; padding:0; list-style:none; }
     body{ background:#fff; font-weight: normal;}
-    
+
 		img{ border:0;  }
 		a{ text-decoration:none; color:#333;  }
 		a:hover{ color:#1974A1;  }
@@ -136,6 +135,5 @@ export default {
 		.slideTxtBox .arrow .next{ background-position:0 -50px;  }
 		.slideTxtBox .arrow .prevStop{ background-position:-60px 0; }
 		.slideTxtBox .arrow .nextStop{ background-position:-60px -50px; }
- 
-    
+
 </style>

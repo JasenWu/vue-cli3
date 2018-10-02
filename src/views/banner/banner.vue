@@ -1,20 +1,20 @@
 <template>
-  <section id="banner" @mouseover="stopScroll()" @mouseout="(config.mouseOverStop.value === true) ? startScrool() : ''" v-if="config.effect">
-    <ul class="img-wrap" :style="{transform:'translate3d(' + (-winWidth * activeIndex)  +'px,0,0)'}">
-      <li v-for="(item,index) in data" :key="index" :style='{transform:"translate(" + 100 * index + "%,0)"}'>
-          <a  :href="item.url">
-              <img :src="item.img" :style="{opacity:imgOpacity}" />
-          </a>
-        </li>
-    </ul>
-    <div class="focus">
-      <ol>
-        <li v-for="(item,index) in data" :key="index" :class="{active:(activeIndex === index)}"  @click="trigger(index,'click')" @mouseover="trigger(index,'mouseover')" >{{index+1}}</li>
-      </ol>
-    </div>
-    <a class="prev" v-if="config.pnLoop.value" @click="changePic('pre')" href="javascript:void(0)"></a>
-    <a class="next" v-if="config.pnLoop.value" @click="changePic('next')" href="javascript:void(0)"></a>
-  </section>
+  <div id="slideBox" class="slideBox">
+			<div class="hd">
+				<ul><li v-for="(v,k) in data" :key="k" :class="{on:k===activeIndex}" @click="trigger(k,'click')" @mouseover="trigger(k,'mouseover')">{{k+1}}</li></ul>
+			</div>
+			<div class="bd">
+				<ul>
+					<li v-for="(v,k) in data" :key="k" v-show="k===activeIndex"><a :href="v.url" target="_blank"><img :src="v.img" /></a></li>
+				</ul>
+			</div>
+
+			<!-- 下面是前/后按钮代码，如果不需要删除即可 -->
+			<a class="prev" href="javascript:void(0)"></a>
+			<a class="next" href="javascript:void(0)"></a>
+
+		</div>
+
 </template>
 <script>
 import { addHandler } from '@assets/js/event.js'
@@ -54,9 +54,9 @@ export default {
       deep: true
     }
   },
-  mounted(){
-        this.stopScroll()
-        this.startScrool()
+  mounted () {
+    this.stopScroll()
+    this.startScrool()
   },
   methods: {
     trigger (index, type) {
@@ -85,7 +85,7 @@ export default {
       })
     },
     setWidth () {
-      this.winWidth = getElement('banner').parentNode.clientWidth
+      this.winWidth = getElement('slideBox').parentNode.clientWidth
     },
     changePic (req) {
       if (req === 'pre') {
@@ -113,75 +113,28 @@ export default {
 </script>
 
 <style lang="less">
-#banner {
-  @height: 300px;
-  position: relative;
-  width: 100%;
-  overflow: hidden;
-  height: @height;
-  ul.img-wrap {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    li {
-      position: absolute;
-      height: @height;
-      width: 100%;
-      img {
-        width: 100%;
-        height: 100%;
-      }
-    }
-  }
-  div.focus {
-    z-index: 99;
-    position: absolute;
-    right: 20px;
-    bottom: 15px;
-    ol {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      margin-left: "-50%";
-      li {
-        float: left;
-        @size: 10px;
-        width: @size;
-        height: @size;
-        line-height: @size;
-        overflow: hidden;
-        padding: 2px;
-        background: white;
-        color:black;
-        text-align: center;
-        cursor: pointer;
-        font-size: 12px;
-        margin-right: 5px;
-        &.active {
-          background: red;
-          color:white;
-          font-weight:bold;
-        }
-      }
-    }
-  }
-  .prev,
-  .next {
-    position: absolute;
-    left: 3%;
-    top: 50%;
-    margin-top: -25px;
-    display: block;
-    width: 32px;
-    height: 40px;
-    background: url('http://www.superslide2.com/demo/images/slider-arrow.png') -110px 5px no-repeat;
-    filter: alpha(opacity=50);
-    opacity: 0.5;
-  }
-  .next {
-    left: auto;
-    right: 3%;
-    background-position: 8px 5px;
-  }
-}
+/* css 重置 */
+		*{margin:0; padding:0; list-style:none; }
+
+		img{ border:0;  }
+		a{ text-decoration:none; color:#333;  }
+
+		/* 本例子css */
+		.slideBox{ width:450px; height:230px; overflow:hidden; position:relative; border:1px solid #ddd;  }
+		.slideBox .hd{ height:15px; overflow:hidden; position:absolute; right:5px; bottom:5px; z-index:1; }
+		.slideBox .hd ul{ overflow:hidden; zoom:1; float:left;  }
+		.slideBox .hd ul li{ float:left; margin-right:2px;  width:15px; height:15px; line-height:14px; text-align:center; background:#fff; cursor:pointer; }
+		.slideBox .hd ul li.on{ background:#f00; color:#fff; }
+		.slideBox .bd{ position:relative; height:100%; z-index:0;   }
+		.slideBox .bd li{ zoom:1; vertical-align:middle; }
+		.slideBox .bd img{ width:450px; height:230px; display:block;  }
+
+		/* 下面是前/后按钮代码，如果不需要删除即可 */
+		.slideBox .prev,
+		.slideBox .next{ position:absolute; left:3%; top:50%; margin-top:-25px; display:block; width:32px; height:40px; background:url(http://www.superslide2.com/demo/images/slider-arrow.png) -110px 5px no-repeat; filter:alpha(opacity=50);opacity:0.5;   }
+		.slideBox .next{ left:auto; right:3%; background-position:8px 5px; }
+		.slideBox .prev:hover,
+		.slideBox .next:hover{ filter:alpha(opacity=100);opacity:1;  }
+		.slideBox .prevStop{ display:none;  }
+		.slideBox .nextStop{ display:none;  }
 </style>

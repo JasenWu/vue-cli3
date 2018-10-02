@@ -2,7 +2,7 @@
   <section>
     <c-layout>
       <template slot="title">
-         <h1  class="layout-title"><span>2. </span>焦点图 / 幻灯片</h1>
+         <h3  class="layout-title"><span>2. </span>焦点图 / 幻灯片</h3>
       </template>
 
      <template slot="main">
@@ -16,7 +16,7 @@
   </section>
 </template>
 <script>
-import { bannerConfig } from '@src/model/model.js'
+import { bannerConfig, banner } from '@src/model/model.js'
 export default {
   components: {
     'c-layout': require('@components/_layout').default,
@@ -26,20 +26,7 @@ export default {
   data () {
     return {
       config: bannerConfig,
-      banner: [
-        {
-          url: '/',
-          img: 'http://www.superslide2.com/demo/images/pic1.jpg'
-        },
-        {
-          url: '/',
-          img: 'http://www.superslide2.com/demo/images/pic2.jpg'
-        },
-        {
-          url: '/',
-          img: 'http://www.superslide2.com/demo/images/pic3.jpg'
-        }
-      ]
+      banner: banner
     }
   },
   methods: {

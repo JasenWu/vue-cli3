@@ -2,7 +2,7 @@
   <section>
     <c-layout>
       <template slot="title">
-         <h1  class="layout-title"><span>1. </span>标签切换 / 书签切换 / 默认效果</h1>
+         <h3  class="layout-title"><span>1. </span>标签切换 / 书签切换 / 默认效果</h3>
       </template>
 
      <template slot="main">
@@ -16,7 +16,7 @@
   </section>
 </template>
 <script>
-import { bannerConfig,label } from '@src/model/model.js'
+import { bannerConfig, label } from '@src/model/model.js'
 export default {
   components: {
     'c-layout': require('@components/_layout').default,
@@ -26,7 +26,7 @@ export default {
   data () {
     return {
       config: bannerConfig,
-      label:  label
+      label: label
     }
   },
   methods: {
