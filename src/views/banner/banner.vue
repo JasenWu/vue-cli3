@@ -54,6 +54,10 @@ export default {
       deep: true
     }
   },
+  mounted(){
+        this.stopScroll()
+        this.startScrool()
+  },
   methods: {
     trigger (index, type) {
       if (type === this.config.trigger.value) {

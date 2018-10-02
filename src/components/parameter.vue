@@ -59,7 +59,7 @@
 
 <script>
 
-import { bannerConfig } from '../../model/model.js'
+import { bannerConfig } from '@model/model.js'
 
 export default {
   name: 'parameter',

@@ -2,11 +2,11 @@
   <section>
     <c-layout>
       <template slot="title">
-         <h1  class="layout-title"><span>2. </span>焦点图 / 幻灯片</h1>
+         <h1  class="layout-title"><span>1. </span>标签切换 / 书签切换 / 默认效果</h1>
       </template>
 
      <template slot="main">
-       <c-banner  :data="banner" :config="config" />
+       <c-label  :data="label" :config="config" />
      </template>
 
      <template slot="parameter">
@@ -16,30 +16,17 @@
   </section>
 </template>
 <script>
-import { bannerConfig } from '@src/model/model.js'
+import { bannerConfig,label } from '@src/model/model.js'
 export default {
   components: {
     'c-layout': require('@components/_layout').default,
-    'c-banner': require('@views/banner/banner').default,
+    'c-label': require('@views/label/label').default,
     'c-parameter': require('@components/parameter').default
   },
   data () {
     return {
       config: bannerConfig,
-      banner: [
-        {
-          url: '/',
-          img: 'http://www.superslide2.com/demo/images/pic1.jpg'
-        },
-        {
-          url: '/',
-          img: 'http://www.superslide2.com/demo/images/pic2.jpg'
-        },
-        {
-          url: '/',
-          img: 'http://www.superslide2.com/demo/images/pic3.jpg'
-        }
-      ]
+      label:  label
     }
   },
   methods: {

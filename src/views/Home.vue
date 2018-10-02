@@ -1,5 +1,8 @@
 <template>
   <section>
+    <hr/>
+    <c-label />
+    <hr/>
     <c-banner />
 
   </section>
@@ -10,7 +13,9 @@
 export default {
   name: 'home',
   components: {
-    'c-banner': require('@views/banner/main').default
+     'c-label': require('@views/label/main').default,
+    'c-banner': require('@views/banner/main').default,
+   
   }
 
 }
