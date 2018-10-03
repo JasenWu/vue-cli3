@@ -71,9 +71,9 @@ export default {
       switch(this.config.effect.value){
         case 'fade':
           if(k === index){
-            return "display:block;"
+            return "display:block;transition:all 1s;"
           }else{
-            return "display:none;"
+            return "display:none;transition:all 1s;"
           }
         case 'left':
           return `display:block;width:${this.size.width}px;float:left;box-sizing: border-box;`
