@@ -1,5 +1,5 @@
 <template>
-  <div id="slideBox" class="slideBox">
+  <div id="slideBox" class="slideBox" @mouseover="stopScroll()" @mouseout="startScrool()">
 			<div class="hd">
 				<ul><li v-for="(v,k) in data" :key="k" :class="{on:k===activeIndex}" @click="trigger(k,'click')" @mouseover="trigger(k,'mouseover')">{{k+1}}</li></ul>
 			</div>
@@ -8,10 +8,9 @@
 					<li v-for="(v,k) in data" :key="k" v-show="k===activeIndex"><a :href="v.url" target="_blank"><img :src="v.img" /></a></li>
 				</ul>
 			</div>
-
 			<!-- 下面是前/后按钮代码，如果不需要删除即可 -->
-			<a class="prev" href="javascript:void(0)"></a>
-			<a class="next" href="javascript:void(0)"></a>
+			<a class="prev" href="javascript:void(0)" @click="changePic('pre')"></a>
+			<a class="next" href="javascript:void(0)" @click="changePic('next')"></a>
 
 		</div>
 
@@ -78,6 +77,9 @@ export default {
       }, __time)
     },
     startScrool () {
+      if (this.config.mouseOverStop && this.config.mouseOverStop.value === false) {
+        return false
+      }
       this.toBanner(this.activeIndex, 0)
       this.setWidth()
       addHandler(window, 'resize', () => {

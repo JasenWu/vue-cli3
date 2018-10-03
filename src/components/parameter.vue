@@ -4,12 +4,12 @@
       常用参数(切换看看)
     </div>
     <ul class="i-parameter-ul">
-      <!-- <li>
+      <li>
         效果[effect]:
         <select v-model="config.effect.value" @change="resetBanner()">
           <option v-for="(v,k) in config.effect.items" :key="k" :value="v">{{v}}</option>
         </select>
-      </li> -->
+      </li>
       <li>
         自动运行[autoPlay]:
         <select v-model="config.autoPlay.value" @change="resetBanner()">

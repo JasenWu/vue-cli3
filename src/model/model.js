@@ -1,6 +1,6 @@
 let config = {
   effect: {
-    value: 'fade',
+    value: 'left',
     items: ['fade', 'fold', 'left', 'top', 'leftLoop', 'topLoop']
   },
   autoPlay: {
