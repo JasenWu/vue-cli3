@@ -3,8 +3,8 @@
 			<div class="hd">
 				<!-- 下面是前/后按钮代码，如果不需要删除即可 -->
 				<span class="arrow">
-          <a class="next" v-if="config.pnLoop.value" @click="changePic('next')" href="javascript:void(0)"></a>
-          <a class="prev" v-if="config.pnLoop.value" @click="changePic('pre')" href="javascript:void(0)"></a>
+          <a class="next" :class="{nextStop:!config.pnLoop.value && activeIndex >= (data.length-1)}"   @click="changePic('next')" href="javascript:void(0)"></a>
+          <a class="prev" :class="{prevStop:!config.pnLoop.value && activeIndex <=0}"   @click="changePic('pre')" href="javascript:void(0)"></a>
         </span>
 				<ul><li v-for="(v,k) in data" :key="k" :class="{on:k===activeIndex}" @click="trigger(k,'click')" @mouseover="trigger(k,'mouseover')">{{v.title}}</li></ul>
 			</div>
@@ -59,6 +59,12 @@ export default {
   watch: {
     config: {
       handler: function(val, oldVal) {
+        if (val.effect.value === "leftLoop" || val.effect.value === "topLoop") {
+          
+          this.$emit("addPreNext");
+        } else {
+          this.$emit("delPreNext");
+        }
         this.stopScroll();
         this.startScrool();
       },
@@ -68,16 +74,14 @@ export default {
 
   methods: {
     getUlStyle(k, index) {
-      
       let result = {
         top: `display:block;width:${this.size.width}px;box-sizing: border-box;`,
-        left: `display:block;width:${
-          this.size.width
-        }px;float:left;box-sizing: border-box;`
+        left: `display:block;width:${this.size.width}px;float:left;box-sizing: border-box;`
       };
 
       switch (this.config.effect.value) {
         case "fade":
+        case "fold":
           if (k === index) {
             return "display:block;transition:all 1s;";
           } else {
@@ -94,7 +98,6 @@ export default {
       let height = this.size.height;
 
       let result = {
-        fade: ``,
         top: `overflow:hidden; position:relative;height:${height}px`,
         left: `overflow:hidden; position:relative;width:${width}px;`
       };
@@ -145,14 +148,22 @@ export default {
 
     changePic(req) {
       if (req === "pre") {
+        if (!this.config.pnLoop.value && this.activeIndex <= 0) {
+          return false;
+        }
+
         this.activeIndex =
           this.activeIndex <= 0 ? this.data.length - 1 : this.activeIndex - 1;
-        return false;
       }
       if (req === "next") {
+        if (
+          !this.config.pnLoop.value &&
+          this.activeIndex >= this.data.length - 1
+        ) {
+          return false;
+        }
         this.activeIndex =
           this.activeIndex >= this.data.length - 1 ? 0 : this.activeIndex + 1;
-        return false;
       }
       if (typeof req === "number") {
         this.activeIndex = req;
