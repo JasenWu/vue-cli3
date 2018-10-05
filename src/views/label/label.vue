@@ -67,39 +67,52 @@ export default {
   },
 
   methods: {
-    getUlStyle(k,index){
-      switch(this.config.effect.value){
-        case 'fade':
-          if(k === index){
-            return "display:block;transition:all 1s;"
-          }else{
-            return "display:none;transition:all 1s;"
-          }
-        case 'left':
-          return `display:block;width:${this.size.width}px;float:left;box-sizing: border-box;`
-      }
+    getUlStyle(k, index) {
+      
+      let result = {
+        top: `display:block;width:${this.size.width}px;box-sizing: border-box;`,
+        left: `display:block;width:${
+          this.size.width
+        }px;float:left;box-sizing: border-box;`
+      };
 
+      switch (this.config.effect.value) {
+        case "fade":
+          if (k === index) {
+            return "display:block;transition:all 1s;";
+          } else {
+            return "display:none;transition:all 1s;";
+          }
+          break;
+        default:
+          return result[this.config.effect.value];
+      }
     },
     getWrapStyle() {
       let len = this.data.length;
       let width = this.size.width;
       let height = this.size.height;
-      switch (this.config.effect.value) {
-        case "top":
-          return `overflow:hidden; position:relative;heigth:${height}`;
-        case "left":
-          return `overflow:hidden; position:relative;width:${width};`;
-      }
+
+      let result = {
+        fade: ``,
+        top: `overflow:hidden; position:relative;height:${height}px`,
+        left: `overflow:hidden; position:relative;width:${width}px;`
+      };
+      return result[this.config.effect.value];
     },
     getBdStyle() {
       let len = this.data.length;
       let width = this.size.width;
+      let height = this.size.height;
       let index = this.activeIndex;
-  
-      switch (this.config.effect.value) {
-        case "left":
-          return `width:${len * width}px; left: ${-width*index}px; position: relative; overflow: hidden; padding: 0px; margin: 0px;transition:left 1s;`;
-      }
+
+      let result = {
+        top: `width:${width}px; top: ${-height *
+          index}px; position: relative; overflow: hidden; padding: 0px; margin: 0px;transition:top 1s;`,
+        left: `width:${len * width}px; left: ${-width *
+          index}px; position: relative; overflow: hidden; padding: 0px; margin: 0px;transition:left 1s;`
+      };
+      return result[this.config.effect.value];
     },
     trigger(index, type) {
       if (type === this.config.trigger.value) {
@@ -121,14 +134,15 @@ export default {
       }, __time);
     },
     startScrool() {
-       if (this.config.mouseOverStop && this.config.mouseOverStop.value === false) {
-        return false
+      if (
+        this.config.mouseOverStop &&
+        this.config.mouseOverStop.value === false
+      ) {
+        return false;
       }
       this.toBanner(this.activeIndex, 0);
-      
-      
     },
-  
+
     changePic(req) {
       if (req === "pre") {
         this.activeIndex =
