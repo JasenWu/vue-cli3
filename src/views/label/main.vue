@@ -49,7 +49,7 @@ export default {
       }
       
       this.data.splice(0,1);
-      this.data.splice(this.data.length-2,1);
+      this.data.splice(this.data.length-1,1);
     },
     changeConfig (config) {
       this.config = config

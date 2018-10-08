@@ -1,6 +1,6 @@
 let config = {
   effect: {
-    value: 'left',
+    value: 'leftLoop',
     items: ['fade', 'fold', 'left', 'top', 'leftLoop', 'topLoop']
   },
   autoPlay: {
@@ -16,7 +16,7 @@ let config = {
     items: ['swing', 'easeOutCirc', 'easeInQuint', 'easeInBack']
   },
   delayTime: {
-    value: 2000,
+    value: 5000,
     items: [1000, 2000, 3000]
   },
   mouseOverStop: {
@@ -35,7 +35,7 @@ let label = [
     children: [
       {
         url: 'http://www.SuperSlide2.com',
-        text: '中国打破了世界软件巨头规则',
+        text: '111111中国打破了世界软件巨头规则',
         date: '2011-11-11'
       },
       {
@@ -76,7 +76,7 @@ let label = [
     children: [
       {
         url: '/',
-        text: '名师教作文：３妙招巧写高分',
+        text: '2222名师教作文：３妙招巧写高分',
         date: '2011-11-11'
       },
       {
@@ -116,7 +116,7 @@ let label = [
     children: [
       {
         url: 'http://www.SuperSlide2.com',
-        text: '澳大利亚八大名校招生说明会',
+        text: '333333澳大利亚八大名校招生说明会',
         date: '2011-11-11'
       },
       {

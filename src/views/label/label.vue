@@ -6,7 +6,7 @@
           <a class="next" :class="{nextStop:!config.pnLoop.value && activeIndex >= (data.length-1)}"   @click="changePic('next')" href="javascript:void(0)"></a>
           <a class="prev" :class="{prevStop:!config.pnLoop.value && activeIndex <=0}"   @click="changePic('pre')" href="javascript:void(0)"></a>
         </span>
-				<ul><li v-for="(v,k) in data" :key="k" :class="{on:k===activeIndex}" @click="trigger(k,'click')" @mouseover="trigger(k,'mouseover')">{{v.title}}</li></ul>
+				<ul><li v-for="(v,k) in dataf" :key="k" :class="{on:k===activeIndex}" @click="trigger(k,'click')" @mouseover="trigger(k,'mouseover')">{{v.title}}</li></ul>
 			</div>
       <div class="tempWrap" :style="getWrapStyle()">
         <div class="bd" :style="getBdStyle()">
@@ -56,27 +56,38 @@ export default {
       imgOpacity: 1
     };
   },
+  computed:{
+    dataf(){
+      let data = this.data;
+      return data.filter((d)=>{ return d.clone !== true})
+    }
+  },
   watch: {
     config: {
       handler: function(val, oldVal) {
-        if (val.effect.value === "leftLoop" || val.effect.value === "topLoop") {
-          
+       this.init(val)
+      },
+      deep: true
+    }
+  },
+  mounted(){
+    this.init(this.config)
+  },
+  methods: {
+    init(val){
+       if (val.effect.value === "leftLoop" || val.effect.value === "topLoop") {
           this.$emit("addPreNext");
         } else {
           this.$emit("delPreNext");
         }
         this.stopScroll();
         this.startScrool();
-      },
-      deep: true
-    }
-  },
-
-  methods: {
+    },
     getUlStyle(k, index) {
       let result = {
         top: `display:block;width:${this.size.width}px;box-sizing: border-box;`,
-        left: `display:block;width:${this.size.width}px;float:left;box-sizing: border-box;`
+        left: `display:block;width:${ this.size.width }px;float:left;box-sizing: border-box;`,
+        leftLoop: `display:block;width:${ this.size.width }px;float:left;box-sizing: border-box;`
       };
 
       switch (this.config.effect.value) {
@@ -99,7 +110,8 @@ export default {
 
       let result = {
         top: `overflow:hidden; position:relative;height:${height}px`,
-        left: `overflow:hidden; position:relative;width:${width}px;`
+        left: `overflow:hidden; position:relative;width:${width}px;`,
+        leftLoop: `overflow:hidden; position:relative;width:${width}px;`,
       };
       return result[this.config.effect.value];
     },
@@ -110,11 +122,13 @@ export default {
       let index = this.activeIndex;
 
       let result = {
-        top: `width:${width}px; top: ${-height *
-          index}px; position: relative; overflow: hidden; padding: 0px; margin: 0px;transition:top 1s;`,
-        left: `width:${len * width}px; left: ${-width *
-          index}px; position: relative; overflow: hidden; padding: 0px; margin: 0px;transition:left 1s;`
+        top: `width:${width}px; top: ${-height * index}px; position: relative; overflow: hidden; padding: 0px; margin: 0px;transition:top 1s;`,
+        left: `width:${len * width}px; left: ${-width * index}px; position: relative; overflow: hidden; padding: 0px; margin: 0px;transition:left 1s;`,
+        leftLoop: `width:${len * width}px; left: ${-width * index}px; position: relative; overflow: hidden; padding: 0px; margin: 0px;`
       };
+      if(this.activeIndex != (this.data.length)){
+        result.leftLoop = result.leftLoop + " transition:left 1s;"
+      }
       return result[this.config.effect.value];
     },
     trigger(index, type) {
@@ -123,18 +137,29 @@ export default {
       }
     },
     toBanner(activeIndex, time) {
-      activeIndex =
-        activeIndex >= this.data.length || activeIndex <= 0 ? 0 : activeIndex;
+      if (this.config.effect.value === "leftLoop" || this.config.effect.value === "topLoop") {
+          console.log('轮转轮转轮转',activeIndex,this.data.length)
+          if(activeIndex > (this.data.length-1)){
+            activeIndex = 1;
+          }
+
+          if(activeIndex < 0){
+            activeIndex = this.data.length-1;
+          }
+   
+      } else {
+        activeIndex = activeIndex >= this.data.length || activeIndex <= 0 ? 0 : activeIndex;
+      }
       this.activeIndex = activeIndex;
       let __time = time === undefined ? this.config.delayTime.value : time;
 
-      if (this.config.autoPlay.value === false) {
-        return false;
-      }
-      this.t = setTimeout(() => {
-        activeIndex++;
-        this.toBanner(activeIndex);
-      }, __time);
+        if (this.config.autoPlay.value === false) {
+          return false;
+        }
+        this.t = setTimeout(() => {
+          activeIndex++;
+          this.toBanner(activeIndex);
+        }, __time);
     },
     startScrool() {
       if (
@@ -143,6 +168,7 @@ export default {
       ) {
         return false;
       }
+      
       this.toBanner(this.activeIndex, 0);
     },
 
