@@ -1,3 +1,5 @@
+ 
+
 // 合并对象
 const extend = function (o, n) {
   for (var p in n) {
@@ -8,7 +10,7 @@ const extend = function (o, n) {
 }
 
 
-equalObj = function (x, y) {
+const equalObj = function (x, y) {
   // If both x and y are null or undefined and exactly the same 
   if (x === y) {
     return true;
@@ -59,83 +61,31 @@ equalObj = function (x, y) {
   return true;
 };
 
-//求某个数的因数
-const getFactor = function(num){
-  let res = [];
-  if(typeof num === "number"){
-    for(let i =1 ;i <= num;i++){
-      if(num % i === 0){
-        res.push(i);
-      }
+/**
+ * 加载js/json文件
+ * @param url
+ */
+export const loadScript = (url) => {
+  return new Promise((resolve, reject) => {
+    let script = document.createElement('script')
+    let head = document.getElementsByTagName('head')[0]
+    script.type = 'text/javascript'
+    script.charset = 'UTF-8'
+    script.src = url
+    if (script.addEventListener) {
+      script.addEventListener('load', () => {
+        return resolve()
+      }, false)
+    } else if (script.attachEvent) {
+      script.attachEvent('onreadystatechange', () => {
+        var target = window.event.srcElement
+        if (target.readyState === 'loaded') {
+          resolve()
+        }
+      })
     }
-  }
-  return res;
-}
-
- //某数是否是素数/质数
-const isPrimeNumber = function(num){
-  let res = [];
-  if(typeof num === "number" && num >0){
-    for(let i =1 ;i <= num;i++){
-      if(num % i === 0){
-        res.push(i);
-      }
-    }
-  }
-  return res[0] === 1 && res[1] === num && num !==1;
-}
- //某数是否是合数
- const isCompositeNumber = function(num){
-  return !isPrimeNumber(num) && num !== 1; //不是质数又不等于1的正整数
-}
-
-//某数是否是偶数
-const isEvenNumber = function(num){
-  return typeof num  && num % 2 === 0;
-}
-
-//某数是否是奇数
-const isOddNumber = function(num){
-  return typeof num  && num % 2 !== 0;
-}
-
-//分解素因数
-const getPrimeFactor = function(num){
-  let res = [];
-  let factors = getFactor(num);
-  factors.forEach((d,i)=>{
-    if(isPrimeNumber(d)){
-      res.push(d);
-    }
+    head.appendChild(script)
   })
-  return res;
-}
-
-//求两个数的最大公因数
-const greatestCommonFactor = function(num1,num2){
-  let factor_num1 = getFactor(num1);
-  let factor_num2 = getFactor(num2);
-  let res =[];
-  factor_num1.forEach((d,i)=>{
-    if(factor_num2.includes(d)){
-       res.push(d);
-    }
-  })
-  return Math.max.apply(null,res);
-}
-
-//求n数的最大公因数  //todo
-const greatestCommonFactorN = function(nums){
-
-  let factor_num1 = getFactor(num1);
-  let factor_num2 = getFactor(num2);
-  let res =[];
-  factor_num1.forEach((d,i)=>{
-    if(factor_num2.includes(d)){
-       res.push(d);
-    }
-  })
-  return Math.max.apply(null,res);
 }
 
 

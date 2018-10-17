@@ -138,7 +138,7 @@ export default {
     },
     toBanner(activeIndex, time) {
       if (this.config.effect.value === "leftLoop" || this.config.effect.value === "topLoop") {
-          console.log('轮转轮转轮转',activeIndex,this.data.length)
+          
           if(activeIndex > (this.data.length-1)){
             activeIndex = 1;
           }
