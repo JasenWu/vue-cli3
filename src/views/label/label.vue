@@ -15,199 +15,193 @@
 				</ul>
 			</div>
       </div>
-			
 		</div>
 </template>
 <script>
-import { addHandler } from "@assets/js/event.js";
-import { getElement } from "@assets/js/dom.js";
 
 export default {
   props: {
     data: {
       type: Array,
       required: true,
-      default() {
-        return [];
+      default () {
+        return []
       }
     },
     size: {
       type: Object,
-      default() {
+      default () {
         return {
           width: 450,
           height: 198
-        };
+        }
       }
     },
     config: {
       type: Object,
       required: true,
-      default() {
-        return {};
+      default () {
+        return {}
       }
     }
   },
-  data() {
+  data () {
     return {
       activeIndex: 0,
       winWidth: 0,
       t: null,
       imgOpacity: 1
-    };
+    }
   },
-  computed:{
-    dataf(){
-      let data = this.data;
-      return data.filter((d)=>{ return d.clone !== true})
+  computed: {
+    dataf () {
+      let data = this.data
+      return data.filter((d) => { return d.clone !== true })
     }
   },
   watch: {
     config: {
-      handler: function(val, oldVal) {
-       this.init(val)
+      handler: function (val, oldVal) {
+        this.init(val)
       },
       deep: true
     }
   },
-  mounted(){
+  mounted () {
     this.init(this.config)
   },
   methods: {
-    init(val){
-       if (val.effect.value === "leftLoop" || val.effect.value === "topLoop") {
-          this.$emit("addPreNext");
-        } else {
-          this.$emit("delPreNext");
-        }
-        this.stopScroll();
-        this.startScrool();
+    init (val) {
+      if (val.effect.value === 'leftLoop' || val.effect.value === 'topLoop') {
+        this.$emit('addPreNext')
+      } else {
+        this.$emit('delPreNext')
+      }
+      this.stopScroll()
+      this.startScrool()
     },
-    getUlStyle(k, index) {
+    getUlStyle (k, index) {
       let result = {
         top: `display:block;width:${this.size.width}px;box-sizing: border-box;`,
-        left: `display:block;width:${ this.size.width }px;float:left;box-sizing: border-box;`,
-        leftLoop: `display:block;width:${ this.size.width }px;float:left;box-sizing: border-box;`
-      };
+        left: `display:block;width:${this.size.width}px;float:left;box-sizing: border-box;`,
+        leftLoop: `display:block;width:${this.size.width}px;float:left;box-sizing: border-box;`
+      }
 
       switch (this.config.effect.value) {
-        case "fade":
-        case "fold":
+        case 'fade':
+        case 'fold':
           if (k === index) {
-            return "display:block;transition:all 1s;";
+            return 'display:block;transition:all 1s;'
           } else {
-            return "display:none;transition:all 1s;";
+            return 'display:none;transition:all 1s;'
           }
-          break;
+
         default:
-          return result[this.config.effect.value];
+          return result[this.config.effect.value]
       }
     },
-    getWrapStyle() {
-      let len = this.data.length;
-      let width = this.size.width;
-      let height = this.size.height;
+    getWrapStyle () {
+      let width = this.size.width
+      let height = this.size.height
 
       let result = {
         top: `overflow:hidden; position:relative;height:${height}px`,
         left: `overflow:hidden; position:relative;width:${width}px;`,
-        leftLoop: `overflow:hidden; position:relative;width:${width}px;`,
-      };
-      return result[this.config.effect.value];
+        leftLoop: `overflow:hidden; position:relative;width:${width}px;`
+      }
+      return result[this.config.effect.value]
     },
-    getBdStyle() {
-      let len = this.data.length;
-      let width = this.size.width;
-      let height = this.size.height;
-      let index = this.activeIndex;
+    getBdStyle () {
+      let len = this.data.length
+      let width = this.size.width
+      let height = this.size.height
+      let index = this.activeIndex
 
       let result = {
         top: `width:${width}px; top: ${-height * index}px; position: relative; overflow: hidden; padding: 0px; margin: 0px;transition:top 1s;`,
         left: `width:${len * width}px; left: ${-width * index}px; position: relative; overflow: hidden; padding: 0px; margin: 0px;transition:left 1s;`,
         leftLoop: `width:${len * width}px; left: ${-width * index}px; position: relative; overflow: hidden; padding: 0px; margin: 0px;`
-      };
-      if(this.activeIndex != (this.data.length)){
-        result.leftLoop = result.leftLoop + " transition:left 1s;"
       }
-      return result[this.config.effect.value];
+      if (this.activeIndex !== (this.data.length)) {
+        result.leftLoop = result.leftLoop + ' transition:left 1s;'
+      }
+      return result[this.config.effect.value]
     },
-    trigger(index, type) {
+    trigger (index, type) {
       if (type === this.config.trigger.value) {
-        this.changePic(index);
+        this.changePic(index)
       }
     },
-    toBanner(activeIndex, time) {
-      if (this.config.effect.value === "leftLoop" || this.config.effect.value === "topLoop") {
-          
-          if(activeIndex > (this.data.length-1)){
-            activeIndex = 1;
-          }
-
-          if(activeIndex < 0){
-            activeIndex = this.data.length-1;
-          }
-   
-      } else {
-        activeIndex = activeIndex >= this.data.length || activeIndex <= 0 ? 0 : activeIndex;
-      }
-      this.activeIndex = activeIndex;
-      let __time = time === undefined ? this.config.delayTime.value : time;
-
-        if (this.config.autoPlay.value === false) {
-          return false;
+    toBanner (activeIndex, time) {
+      if (this.config.effect.value === 'leftLoop' || this.config.effect.value === 'topLoop') {
+        if (activeIndex > (this.data.length - 1)) {
+          activeIndex = 1
         }
-        this.t = setTimeout(() => {
-          activeIndex++;
-          this.toBanner(activeIndex);
-        }, __time);
+
+        if (activeIndex < 0) {
+          activeIndex = this.data.length - 1
+        }
+      } else {
+        activeIndex = activeIndex >= this.data.length || activeIndex <= 0 ? 0 : activeIndex
+      }
+      this.activeIndex = activeIndex
+      let __time = time === undefined ? this.config.delayTime.value : time
+
+      if (this.config.autoPlay.value === false) {
+        return false
+      }
+      this.t = setTimeout(() => {
+        activeIndex++
+        this.toBanner(activeIndex)
+      }, __time)
     },
-    startScrool() {
+    startScrool () {
       if (
         this.config.mouseOverStop &&
         this.config.mouseOverStop.value === false
       ) {
-        return false;
+        return false
       }
-      
-      this.toBanner(this.activeIndex, 0);
+
+      this.toBanner(this.activeIndex, 0)
     },
 
-    changePic(req) {
-      if (req === "pre") {
+    changePic (req) {
+      if (req === 'pre') {
         if (!this.config.pnLoop.value && this.activeIndex <= 0) {
-          return false;
+          return false
         }
 
         this.activeIndex =
-          this.activeIndex <= 0 ? this.data.length - 1 : this.activeIndex - 1;
+          this.activeIndex <= 0 ? this.data.length - 1 : this.activeIndex - 1
       }
-      if (req === "next") {
+      if (req === 'next') {
         if (
           !this.config.pnLoop.value &&
           this.activeIndex >= this.data.length - 1
         ) {
-          return false;
+          return false
         }
         this.activeIndex =
-          this.activeIndex >= this.data.length - 1 ? 0 : this.activeIndex + 1;
+          this.activeIndex >= this.data.length - 1 ? 0 : this.activeIndex + 1
       }
-      if (typeof req === "number") {
-        this.activeIndex = req;
+      if (typeof req === 'number') {
+        this.activeIndex = req
       }
     },
-    stopScroll() {
+    stopScroll () {
       if (
         this.config.mouseOverStop &&
         this.config.mouseOverStop.value === false
       ) {
-        return false;
+        return false
       }
       if (this.t != null) {
-        clearTimeout(this.t);
+        clearTimeout(this.t)
       }
     }
   }
-};
+}
 </script>
 
 <style lang="less">

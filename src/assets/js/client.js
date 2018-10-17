@@ -74,7 +74,7 @@ var client = (function () {
   } else if (/KHTML\/(\S+)/.test(ua) || /Konqueror\/([^;]+)/.test(ua)) {
     engine.ver = browser.ver = RegExp['$1']
     engine.khtml = browser.konq = parseFloat(engine.ver)
-  } else if (/rv:([^\)]+)\) Gecko\/\d{8}/.test(ua)) {
+  } else if (/rv:([^\\)]+)\) Gecko\/\d{8}/.test(ua)) {
     engine.ver = RegExp['$1']
     engine.gecko = parseFloat(engine.ver)
     // 确定是不是 Firefox

@@ -1,4 +1,3 @@
- 
 
 // 合并对象
 const extend = function (o, n) {
@@ -9,57 +8,56 @@ const extend = function (o, n) {
   }
 }
 
-
 const equalObj = function (x, y) {
-  // If both x and y are null or undefined and exactly the same 
+  // If both x and y are null or undefined and exactly the same
   if (x === y) {
-    return true;
+    return true
   }
 
-  // If they are not strictly equal, they both need to be Objects 
+  // If they are not strictly equal, they both need to be Objects
   if (!(x instanceof Object) || !(y instanceof Object)) {
-    return false;
+    return false
   }
 
-  //They must have the exact same prototype chain,the closest we can do is
-  //test the constructor. 
+  // They must have the exact same prototype chain,the closest we can do is
+  // test the constructor.
   if (x.constructor !== y.constructor) {
-    return false;
+    return false
   }
 
   for (var p in x) {
-    //Inherited properties were tested using x.constructor === y.constructor
+    // Inherited properties were tested using x.constructor === y.constructor
     if (x.hasOwnProperty(p)) {
-      // Allows comparing x[ p ] and y[ p ] when set to undefined 
+      // Allows comparing x[ p ] and y[ p ] when set to undefined
       if (!y.hasOwnProperty(p)) {
-        return false;
+        return false
       }
 
-      // If they have the same strict value or identity then they are equal 
+      // If they have the same strict value or identity then they are equal
       if (x[p] === y[p]) {
-        continue;
+        continue
       }
 
-      // Numbers, Strings, Functions, Booleans must be strictly equal 
-      if (typeof (x[p]) !== "object") {
-        return false;
+      // Numbers, Strings, Functions, Booleans must be strictly equal
+      if (typeof (x[p]) !== 'object') {
+        return false
       }
 
-      // Objects and Arrays must be tested recursively 
+      // Objects and Arrays must be tested recursively
       if (!Object.equals(x[p], y[p])) {
-        return false;
+        return false
       }
     }
   }
 
   for (p in y) {
-    // allows x[ p ] to be set to undefined 
+    // allows x[ p ] to be set to undefined
     if (y.hasOwnProperty(p) && !x.hasOwnProperty(p)) {
-      return false;
+      return false
     }
   }
-  return true;
-};
+  return true
+}
 
 /**
  * 加载js/json文件
@@ -88,9 +86,6 @@ export const loadScript = (url) => {
   })
 }
 
-
-
-
 export {
-  extend,equalObj
+  extend, equalObj
 }

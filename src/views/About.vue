@@ -7,36 +7,35 @@
 </template>
 
 <script>
-import {loadScript} from "@assets/js/unit"
-import math from "@assets/js/math"
-
+import { loadScript } from '@assets/js/unit'
+import math from '@assets/js/math'
 
 export default {
   name: 'about',
-  data(){
+  data () {
     return {
-      num:""
+      num: ''
     }
   },
-  computed:{
-    result(){
-      let r = math.getPrimeFactor(this.num);
-      console.log('r',r)
-      return r;
+  computed: {
+    result () {
+      let r = math.getPrimeFactor(this.num)
+      console.log('r', r)
+      return r
     }
   },
-  methods:{
-   
+  methods: {
+
   },
   mounted () {
-    loadScript('http://www.renjie.net.cn/math.js').then((res)=>{
-      console.log(res);
-    }).catch((err)=>{
-      console.log(err);
+    loadScript('http://www.renjie.net.cn/math.js').then((res) => {
+      console.log(res)
+    }).catch((err) => {
+      console.log(err)
     })
 
-     let r = math.greatestCommonFactorN([18,30]);
-    console.log(r);
+    let r = math.greatestCommonFactorN([18, 30])
+    console.log(r)
   }
 }
 </script>
@@ -47,4 +46,3 @@ export default {
   line-height: 32px;
 }
 </style>
-

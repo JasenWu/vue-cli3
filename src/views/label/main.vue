@@ -17,7 +17,6 @@
 </template>
 <script>
 import { bannerConfig, label } from '@src/model/model.js'
- 
 
 export default {
   components: {
@@ -32,24 +31,23 @@ export default {
     }
   },
   methods: {
-    addPreNext(){
-       console.log('here1111');
-      if(this.data && this.data[0].clone){//已经增加过了，则不再进行增加
-        return;
+    addPreNext () {
+      console.log('here1111')
+      if (this.data && this.data[0].clone) { // 已经增加过了，则不再进行增加
+        return
       }
-      let last = Object.assign({},this.data[this.data.length-1],{clone:true})
-      let first = Object.assign({},this.data[0],{clone:true})
-      this.data.push(first);
-      this.data.unshift(last);
+      let last = Object.assign({}, this.data[this.data.length - 1], { clone: true })
+      let first = Object.assign({}, this.data[0], { clone: true })
+      this.data.push(first)
+      this.data.unshift(last)
     },
-     delPreNext(){
-  
-      if(this.data && !this.data[0].clone){//已经增加过了，则不再进行增加
-        return;
+    delPreNext () {
+      if (this.data && !this.data[0].clone) { // 已经增加过了，则不再进行增加
+        return
       }
-      
-      this.data.splice(0,1);
-      this.data.splice(this.data.length-1,1);
+
+      this.data.splice(0, 1)
+      this.data.splice(this.data.length - 1, 1)
     },
     changeConfig (config) {
       this.config = config
