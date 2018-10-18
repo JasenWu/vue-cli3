@@ -95,7 +95,6 @@ export default {
           } else {
             return 'display:none;transition:all 1s;'
           }
-
         default:
           return result[this.config.effect.value]
       }
